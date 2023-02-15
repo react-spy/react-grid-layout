@@ -1,0 +1,13 @@
+{
+  "name": "vite-react",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "http://139.224.54.218:3000/$1"
+    }
+  ]
+}

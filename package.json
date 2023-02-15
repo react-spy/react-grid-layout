@@ -1,0 +1,35 @@
+{
+  "name": "vite-react",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env BUILD_ENV=dev vite",
+    "start": "cross-env BUILD_ENV=dev vite",
+    "build": "cross-env BUILD_ENV=prod tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ahooks": "^3.7.4",
+    "antd": "^5.2.1",
+    "axios": "^1.3.2",
+    "dayjs": "^1.11.7",
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-grid-layout": "^1.3.4",
+    "react-router-dom": "^6.8.0",
+    "valtio": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.19",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-grid-layout": "^1.3.2",
+    "@vitejs/plugin-react": "^3.1.0",
+    "cross-env": "^7.0.3",
+    "less": "^4.1.3",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}
