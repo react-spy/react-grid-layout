@@ -4,7 +4,7 @@
 import { Suspense, useMemo } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useSetState } from "ahooks";
-import { Checkbox, Card } from "antd";
+import { Checkbox, Card, Tooltip } from "antd";
 import type { Item } from "@/typing/index";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -19,7 +19,14 @@ const componentsMap: Record<string, any> = Array.from({ length: 6 })
       Object.assign(
         { ...prev },
         {
-          [`${index}`]: <div className={styles.card}>卡片{index + 1}</div>,
+          [`${index}`]: (
+            <div className={styles.card}>
+              卡片{index + 1}
+              <Tooltip title="跳转到百度">
+                <a href="https://www.baidu.com">百度一下</a>
+              </Tooltip>
+            </div>
+          ),
         }
       ),
     {}
@@ -48,8 +55,11 @@ const BasicCard = () => {
   const renderGridItem = (item: Item) => {
     const { i, isDraggable } = item;
     return (
-      <div key={i} style={{ cursor: isDraggable ? "move" : "inherit" }}>
-        <Suspense fallback={<div>loading</div>}>{componentsMap[i]}</Suspense>
+      <div key={i}>
+        <Suspense fallback={<div>loading</div>}>
+          {componentsMap[i]}
+          {isDraggable && <div className={styles.disabledLayer} />}
+        </Suspense>
       </div>
     );
   };
