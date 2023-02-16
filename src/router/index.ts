@@ -20,6 +20,10 @@ export const baseRouters: RouteObject[] = [
         path: "hover",
         id: "./views/HoverCard/index.tsx",
       },
+      {
+        path: "adaptive",
+        id: "./views/AdaptiveCard/index.tsx",
+      },
     ],
   },
   {

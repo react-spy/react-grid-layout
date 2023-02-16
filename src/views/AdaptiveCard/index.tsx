@@ -1,9 +1,8 @@
 /**
- * 自定义首页--Hover操作
+ * 自定义首页--自适应
  */
-import { Suspense } from "react";
+import { useState, Suspense, useMemo } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import { useSetState } from "ahooks";
 import type { Item } from "@/typing/index";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -18,60 +17,53 @@ const componentsMap: Record<string, any> = Array.from({ length: 6 })
       Object.assign(
         { ...prev },
         {
-          [`${index}`]: (
-            <div className={styles.card}>
-              <div>Hover卡片{index + 1}</div>
-            </div>
-          ),
+          [`${index}`]: <div className={styles.card}>卡片{index + 1}</div>,
         }
       ),
     {}
   );
 
-const generateLayout = Array.from({ length: 6 })
+const generateLayout: Item[] = Array.from({ length: 6 })
   .fill(0)
   .map((_, i: number) => ({
-    x: 0,
+    x: i % 4,
     y: 0,
     w: 2,
-    h: 3,
+    h: 2,
     i: i.toString(),
   }));
 
-const HoverCard = () => {
-  const [state, setState] = useSetState<any>({
-    appLayoutList: generateLayout,
-  });
-  const { appLayoutList } = state;
+const AdaptiveCard = () => {
+  const [appLayoutList, setAppLayoutList] = useState(() => generateLayout);
 
   const renderGridItem = (item: Item) => {
     const { i } = item;
     return (
-      <div
-        key={i}
-        onMouseOver={() => setState({ [`${i}_isHoving`]: true })}
-        onMouseOut={() => setState({ [`${i}_isHoving`]: false })}
-      >
+      <div key={i}>
         <Suspense fallback={<div>loading</div>}>{componentsMap[i]}</Suspense>
       </div>
     );
   };
 
-  const dealLayout = appLayoutList.map((item: Item) => ({
-    ...item,
-    isDraggable: !!state[`${item.i}_isHoving`],
-    isResizable: !!state[`${item.i}_isHoving`],
-  }));
+  const dealLayout = useMemo(
+    () =>
+      appLayoutList.map((item: Item) => ({
+        ...item,
+        // isDraggable: false,
+        // isResizable: false,
+      })),
+    [appLayoutList]
+  );
 
   return (
-    <div>
+    <div className={styles.container}>
       <ResponsiveGridLayout
         className="layout"
         compactType="vertical"
         margin={[10, 10]}
         containerPadding={[0, 0]}
         // 一行显示几列
-        cols={{ lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 }}
+        cols={{ lg: 4, md: 4, sm: 4, xs: 4, xxs: 4 }}
         rowHeight={20}
         isBounded
         maxRows={100}
@@ -83,14 +75,13 @@ const HoverCard = () => {
           xxs: dealLayout,
         }}
         preventCollision={false}
+        useCSSTransforms
         measureBeforeMount={false}
-        onLayoutChange={(_layout: any, { lg }: any) =>
-          setState({ appLayoutList: lg })
-        }
+        onLayoutChange={(_layout: any, { lg }: any) => setAppLayoutList(lg)}
       >
         {dealLayout.map(renderGridItem)}
       </ResponsiveGridLayout>
     </div>
   );
 };
-export default HoverCard;
+export default AdaptiveCard;
