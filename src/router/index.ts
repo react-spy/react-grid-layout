@@ -24,6 +24,10 @@ export const baseRouters: RouteObject[] = [
         path: "adaptive",
         id: "./views/AdaptiveCard/index.tsx",
       },
+      {
+        path: "drag",
+        id: "./views/DraggableResizableCard/index.tsx",
+      },
     ],
   },
   {

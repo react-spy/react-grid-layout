@@ -34,7 +34,9 @@ const generateLayout: Item[] = Array.from({ length: 6 })
   }));
 
 const BasicCard = () => {
-  const [appLayoutList, setAppLayoutList] = useState(() => generateLayout);
+  const [appLayoutList, setAppLayoutList] = useState<Item[]>(
+    () => generateLayout
+  );
 
   const renderGridItem = (item: Item) => {
     const { i } = item;

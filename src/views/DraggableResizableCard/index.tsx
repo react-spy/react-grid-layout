@@ -1,9 +1,10 @@
 /**
- * 自定义首页--Hover操作
+ * 自定义首页--是否可拖动、可缩放
  */
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useSetState } from "ahooks";
+import { Checkbox, Card } from "antd";
 import type { Item } from "@/typing/index";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -18,56 +19,65 @@ const componentsMap: Record<string, any> = Array.from({ length: 6 })
       Object.assign(
         { ...prev },
         {
-          [`${index}`]: (
-            <div className={styles.card}>
-              <div>Hover卡片{index + 1}</div>
-            </div>
-          ),
+          [`${index}`]: <div className={styles.card}>卡片{index + 1}</div>,
         }
       ),
     {}
   );
 
-const generateLayout = Array.from({ length: 6 })
+const generateLayout: Item[] = Array.from({ length: 6 })
   .fill(0)
   .map((_, i: number) => ({
     x: 0,
     y: 0,
     w: 2,
-    h: 3,
+    h: 2,
     i: i.toString(),
   }));
 
-const HoverCard = () => {
+const BasicCard = () => {
   const [state, setState] = useSetState<{
     appLayoutList: Item[];
-    [k: string]: any;
+    dragResizableList: Array<"dragable" | "resizable">;
   }>({
     appLayoutList: generateLayout,
+    dragResizableList: [],
   });
-  const { appLayoutList } = state;
+  const { appLayoutList, dragResizableList } = state;
 
   const renderGridItem = (item: Item) => {
-    const { i } = item;
+    const { i, isDraggable } = item;
     return (
-      <div
-        key={i}
-        onMouseOver={() => setState({ [`${i}_isHoving`]: true })}
-        onMouseOut={() => setState({ [`${i}_isHoving`]: false })}
-      >
+      <div key={i} style={{ cursor: isDraggable ? "move" : "inherit" }}>
         <Suspense fallback={<div>loading</div>}>{componentsMap[i]}</Suspense>
       </div>
     );
   };
 
-  const dealLayout = appLayoutList.map((item: Item) => ({
-    ...item,
-    isDraggable: !!state[`${item.i}_isHoving`],
-    isResizable: !!state[`${item.i}_isHoving`],
-  }));
+  const dealLayout = useMemo(
+    () =>
+      appLayoutList.map((item: Item) => ({
+        ...item,
+        isDraggable: dragResizableList.includes("dragable"),
+        isResizable: dragResizableList.includes("resizable"),
+      })),
+    [appLayoutList, dragResizableList]
+  );
 
   return (
     <div>
+      <Card>
+        <Checkbox.Group
+          onChange={(v: any[]) => setState({ dragResizableList: v })}
+        >
+          <Checkbox key="dragable" value="dragable">
+            可拖动
+          </Checkbox>
+          <Checkbox key="resizable" value="resizable">
+            可缩放
+          </Checkbox>
+        </Checkbox.Group>
+      </Card>
       <ResponsiveGridLayout
         className="layout"
         compactType="vertical"
@@ -86,6 +96,7 @@ const HoverCard = () => {
           xxs: dealLayout,
         }}
         preventCollision={false}
+        useCSSTransforms
         measureBeforeMount={false}
         onLayoutChange={(_layout: any, { lg }: any) =>
           setState({ appLayoutList: lg })
@@ -96,4 +107,4 @@ const HoverCard = () => {
     </div>
   );
 };
-export default HoverCard;
+export default BasicCard;
