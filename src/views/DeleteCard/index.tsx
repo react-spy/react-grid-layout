@@ -1,7 +1,7 @@
 /**
  * 自定义首页--可删除、可添加
  */
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { useSetState } from "ahooks";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import type { Item } from "@/typing/index";
@@ -82,12 +82,17 @@ const DeleteCard = () => {
     );
   };
 
-  const dealLayout = appLayoutList.map((item: Item, index: number) => ({
-    ...item,
-    // isDraggable: false,
-    // isResizable: false,
-  }));
+  const dealLayout = useMemo(
+    () =>
+      appLayoutList.map((item: Item) => ({
+        ...item,
+        // isDraggable: false,
+        // isResizable: false,
+      })),
+    [appLayoutList]
+  );
 
+  // 分辨率发生改变
   const onBreakpointChange = (breakpoint: string) => {
     setState({
       currentBreakpoint: breakpoint,
@@ -106,7 +111,7 @@ const DeleteCard = () => {
           ({ i }: Item) => i !== item.i
         ),
       },
-      appLayoutList: insertCard(appLayoutList, item),
+      appLayoutList: insertCard([...appLayoutList], item),
     });
   };
 
@@ -132,7 +137,7 @@ const DeleteCard = () => {
         margin={[10, 10]}
         containerPadding={[0, 0]}
         // 一行显示几列
-        cols={{ lg: 4, md: 4, sm: 2, xs: 1 }}
+        cols={{ lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 }}
         rowHeight={20}
         isBounded
         maxRows={100}
@@ -144,7 +149,6 @@ const DeleteCard = () => {
           xxs: dealLayout,
         }}
         preventCollision={false}
-        useCSSTransforms={false}
         measureBeforeMount={false}
         onBreakpointChange={onBreakpointChange}
         onLayoutChange={(_layout: any, layouts: any) => {

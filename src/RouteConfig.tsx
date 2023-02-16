@@ -45,8 +45,6 @@ const initRouters = [
   },
 ];
 
-console.log("initRouters", initRouters);
-
 const RouteSetting = () => {
   return <RouterProvider router={createHashRouter(initRouters)} />;
 };

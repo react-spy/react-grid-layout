@@ -16,6 +16,10 @@ export const baseRouters: RouteObject[] = [
         path: "delete",
         id: "./views/DeleteCard/index.tsx",
       },
+      {
+        path: "hover",
+        id: "./views/HoverCard/index.tsx",
+      },
     ],
   },
   {
