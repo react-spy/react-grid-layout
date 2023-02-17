@@ -28,6 +28,10 @@ export const baseRouters: RouteObject[] = [
         path: "drag",
         id: "./views/DraggableResizableCard/index.tsx",
       },
+      {
+        path: "advanced",
+        id: "./views/AdvancedCard/index.tsx",
+      },
     ],
   },
   {

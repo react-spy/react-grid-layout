@@ -26,7 +26,7 @@ const createRoutes: any = (routes = baseRouters, parentPath = "") => {
           ...rest,
           path: `${parentPath}${path}`,
           element: (
-            <Suspense fallback={<p>loading</p>}>
+            <Suspense fallback={<p>loading...</p>}>
               <Component />
             </Suspense>
           ),

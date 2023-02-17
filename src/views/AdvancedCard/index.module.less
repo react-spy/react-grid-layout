@@ -1,0 +1,21 @@
+// 卡片内边距
+@card-padding: 16px;
+
+.container {
+    min-width: 800px;
+}
+
+.disabledLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: move;
+    z-index: 1;
+    height: calc(100% - @card-padding);
+}
+
+.move {
+    cursor: move;
+}

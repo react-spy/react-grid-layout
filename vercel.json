@@ -7,7 +7,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "http://xxx.com/$1"
+      "dest": "http://139.224.54.218:3000/$1"
     }
   ]
 }
