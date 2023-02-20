@@ -10,12 +10,27 @@ export const componentsMap: Record<string, any> = {
   BasicInfoCard,
 };
 
+/**
+ * uuid和type之间的映射
+ */
+export const uuidTypeMap: Record<string, string> = {
+  EcxWFWmS: "BasicInfoCard",
+  T1h13Etq: "BasicInfoCard",
+};
+
 export const initLayout: Item[] = [
   {
     x: 0,
     y: 0,
     w: 2,
     h: 6,
-    i: "BasicInfoCard",
+    i: "EcxWFWmS",
+  },
+  {
+    x: 0,
+    y: 0,
+    w: 2,
+    h: 6,
+    i: "T1h13Etq",
   },
 ];

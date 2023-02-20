@@ -9,6 +9,10 @@ export const baseRouters: RouteObject[] = [
     path: "/",
     children: [
       {
+        path: "home",
+        id: "./views/Home/index.tsx",
+      },
+      {
         path: "basic",
         id: "./views/BasicCard/index.tsx",
       },

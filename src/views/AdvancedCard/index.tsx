@@ -5,7 +5,7 @@ import { Suspense, createContext } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useSetState } from "ahooks";
 import cls from "classnames";
-import { componentsMap, initLayout } from "./importCard";
+import { componentsMap, initLayout, uuidTypeMap } from "./importCard";
 import type { Item } from "@/typing/index";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -35,11 +35,23 @@ const CustomCardHome = () => {
   const { appLayoutList, isDragResizable } = state;
 
   const renderGridItem = (item: Item) => {
+    // 如果想支持多个卡片公用一个模板，需要动态生成uuid和卡片类型type映射
     const { i } = item;
-    const CardComponent = componentsMap[i];
+    const type = uuidTypeMap[i];
+    if (!type) {
+      // 没有找到模板类型
+      return null;
+    }
+    const CardComponent = componentsMap[type];
+    // 没有懒加载组件
+    if (!CardComponent) return null;
     return (
-      <div key={i} className={cls({ [styles.move]: isDragResizable })}>
-        <Suspense fallback={<div>loading</div>}>
+      <div
+        key={i}
+        data-card-type={i}
+        className={cls({ [styles.move]: isDragResizable })}
+      >
+        <Suspense fallback={<div>卡片加载中...</div>}>
           <CardComponent />
         </Suspense>
       </div>
@@ -50,7 +62,7 @@ const CustomCardHome = () => {
     isDragResizable,
     setCardState: setState,
   };
-  console.log("isDragResizable", isDragResizable);
+
   return (
     <CustomCardHomeContext.Provider value={context}>
       <div className={styles.container}>

@@ -1,16 +1,15 @@
-@keyframes zoomInDown {
+@import url("../../../index.module.less");
+
+@keyframes zoomIn {
     from {
-      opacity: 0;
-      transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -1000px, 0);
-      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
     }
-  
-    60% {
-      opacity: 1;
-      transform: scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0);
-      animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+
+    50% {
+        opacity: 1;
     }
-  }
+}
 
 .layout-modal-overlay {
     position: fixed;
@@ -22,6 +21,12 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.zoomIn {
+    animation-name: zoomIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
 .layout-modal {
     position: fixed;
     top: 0;
@@ -31,9 +36,6 @@
     border-radius: 4px;
     width: 100%;
     height: 100%;
-    animation-name: zoomInDown;
-    animation-duration: 0.5s;
-    animation-fill-mode: both;
 
     .layout-modal-content {
         padding: 16px 24px;

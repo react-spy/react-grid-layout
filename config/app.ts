@@ -24,4 +24,4 @@ export const appTokenName: string = "APP_TOKEN";
 /**
  * 网站重定向地址
  */
-export const appRedirectUrl: string = "/basic";
+export const appRedirectUrl: string = "/home";

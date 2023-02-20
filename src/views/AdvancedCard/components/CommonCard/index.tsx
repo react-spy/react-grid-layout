@@ -3,7 +3,7 @@
  */
 import React, { useContext } from "react";
 // import type { MutableRefObject } from "react";
-import { Space, Tooltip, Dropdown } from "antd";
+import { Space, Tooltip, Dropdown, message } from "antd";
 import { useSetState } from "ahooks";
 import { FullscreenOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { CustomCardHomeContext } from "../../index";
@@ -48,7 +48,13 @@ const CommonCard = ({
     {
       key: "2",
       label: (
-        <a target="_blank" rel="noopener noreferrer">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => {
+            message.info("仅演示!");
+          }}
+        >
           编辑
         </a>
       ),

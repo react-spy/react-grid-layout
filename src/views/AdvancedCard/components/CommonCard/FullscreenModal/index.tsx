@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import cls from "classnames";
 import { useControllableValue } from "ahooks";
 import { FullscreenExitOutlined } from "@ant-design/icons";
 
@@ -26,7 +27,12 @@ const FullscreenModal = (props: React.PropsWithChildren<ModalProps>) => {
   return ReactDOM.createPortal(
     <>
       <div className={styles["layout-modal-overlay"]}></div>
-      <div className={styles["layout-modal"]}>
+      <div
+        className={cls({
+          [styles["layout-modal"]]: true,
+          [styles["zoomIn"]]: visible,
+        })}
+      >
         <div className={styles["layout-modal-header"]}>
           <div className={styles["layout-modal-header-title"]}>{title}</div>
           <div
