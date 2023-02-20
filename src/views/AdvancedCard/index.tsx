@@ -16,10 +16,12 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export type CustomCardHomeContextType = {
   isDragResizable: boolean;
+  setCardState: (b: any) => void;
 };
 
 export const CustomCardHomeContext = createContext<CustomCardHomeContextType>({
   isDragResizable: false,
+  setCardState: () => {},
 });
 
 const CustomCardHome = () => {
@@ -46,8 +48,9 @@ const CustomCardHome = () => {
 
   const context: CustomCardHomeContextType = {
     isDragResizable,
+    setCardState: setState,
   };
-
+  console.log("isDragResizable", isDragResizable);
   return (
     <CustomCardHomeContext.Provider value={context}>
       <div className={styles.container}>

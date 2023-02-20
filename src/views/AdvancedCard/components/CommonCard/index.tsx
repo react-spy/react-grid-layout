@@ -21,7 +21,7 @@ const CommonCard = ({
   title = "卡片标题",
   reload,
 }: React.PropsWithChildren<CommonCardProps>) => {
-  const { isDragResizable } = useContext(CustomCardHomeContext);
+  const { isDragResizable, setCardState } = useContext(CustomCardHomeContext);
 
   const [state, setState] = useSetState({
     visible: false,
@@ -60,7 +60,10 @@ const CommonCard = ({
       <Tooltip title="全屏">
         <FullscreenOutlined
           className={styles["card-tool-icons"]}
-          onClick={() => setState({ visible: true })}
+          onClick={() => {
+            setState({ visible: true });
+            setCardState({ isDragResizable: false });
+          }}
         />
       </Tooltip>
       <Dropdown menu={{ items }}>
@@ -81,8 +84,14 @@ const CommonCard = ({
         </div>
       </div>
       <FullscreenModal
+        title={title}
         visible={visible}
-        onClose={() => setState({ visible: false })}
+        setVisible={(v) => {
+          if (!v) {
+            setCardState({ isDragResizable: true });
+          }
+          setState({ visible: v });
+        }}
       >
         {children}
       </FullscreenModal>

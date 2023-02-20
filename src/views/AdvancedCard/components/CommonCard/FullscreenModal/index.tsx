@@ -1,27 +1,43 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useControllableValue } from "ahooks";
+import { FullscreenExitOutlined } from "@ant-design/icons";
 
-import "./index.less";
+import styles from "./index.module.less";
 
 interface ModalProps {
-  onClose: () => void;
+  setVisible: (v: boolean) => void;
   visible: boolean;
+  title?: string;
 }
 
-const FullscreenModal = ({
-  onClose,
-  visible,
-  children,
-}: React.PropsWithChildren<ModalProps>) => {
+const FullscreenModal = (props: React.PropsWithChildren<ModalProps>) => {
+  const { children, title } = props;
+
+  const [visible, setVisible] = useControllableValue(props, {
+    valuePropName: "visible",
+    trigger: "setVisible",
+  });
+
   if (!visible) {
     return null;
   }
 
   return ReactDOM.createPortal(
     <>
-      <div className="layout-modal-overlay" onClick={onClose}></div>
-      <div className="layout-modal">
-        <div className="layout-modal-content">{children}</div>
+      <div className={styles["layout-modal-overlay"]}></div>
+      <div className={styles["layout-modal"]}>
+        <div className={styles["layout-modal-header"]}>
+          <div className={styles["layout-modal-header-title"]}>{title}</div>
+          <div
+            className={styles["layout-modal-header-tool"]}
+            onClick={() => setVisible(false)}
+          >
+            <FullscreenExitOutlined />
+            <span>退出全屏</span>
+          </div>
+        </div>
+        <div className={styles["layout-modal-content"]}>{children}</div>
       </div>
     </>,
     document.body
